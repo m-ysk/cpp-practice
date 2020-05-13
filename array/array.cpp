@@ -78,6 +78,11 @@ struct array {
 
   reference operator[](size_type i) { return storage[i]; }
 
+  reference at(size_t n) {
+    if (n >= size()) throw out_of_range("Error: Out of Range");
+    return storage[n];
+  }
+
   const_reference operator[](size_type i) const { return storage[i]; }
 
   size_type size() const { return N; }
@@ -108,9 +113,10 @@ void print(Container const& c) {
 
 int main() {
   array<int, 5> a = {1, 2, 3, 4, 5};
-  cout << a[3];
 
-  auto i = a.begin();
-  cout << *(i + 3) << endl;
-  cout << i[3] << endl;
+  try {
+    a.at(1000);
+  } catch (out_of_range& e) {
+    cout << e.what() << endl;
+  }
 }
